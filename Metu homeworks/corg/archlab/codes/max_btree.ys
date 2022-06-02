@@ -1,0 +1,100 @@
+# Execution begins at address 0 
+# Prepare the stack pointer, the arguments, and call find_max
+## BURAK BAHAR 2380137
+
+.pos 0
+    irmovq stack, %rsp
+    irmovq root, %rdi
+    call main
+    halt
+       # Terminate program 
+
+main:
+    call max_btree
+    ret
+# rdi root, rdx is max and I think values returned stored at rax
+max_btree:
+    pushq %rdi                 #push root
+    irmovq $-9223372036854775808 , %rax        # max = 0 for now 
+    andq %rdi, %rdi         # if(root) ???
+    jne cont                # root is null then return
+    popq %rdi
+    ret                  # Return
+cont:   # max = root
+    mrmovq (%rdi), %r9
+    pushq %r9
+    mrmovq 8(%rdi), %rdi    # root = root->left
+    call max_btree          
+    rrmovq %rax, %r8    # if returned value is bigger or equal max = new value             
+    popq %r9
+    popq %rdi             # restore root value rdi
+    pushq %r8
+    pushq %r9
+    mrmovq 16(%rdi), %rdi   # root = root->right
+    call max_btree
+    rrmovq %rax, %r10
+    popq %r9
+    popq %r8  # if returned value is bigger or equal max = new value
+    rrmovq %r8, %r14
+    subq  %r10, %r8
+    jge ri
+    rrmovq %r10, %r13
+    subq %r9, %r10
+    jge ru
+    jmp roota
+ri:
+    rrmovq %r14, %r8
+    subq %r9, %r8
+    jge re
+roota:
+    rrmovq %r9 ,%rax
+    ret
+re:
+    rrmovq %r14, %rax
+    ret
+ru:
+    rrmovq %r13, %rax
+    ret
+    
+.pos 0x200
+root:
+    .quad 5
+    .quad node7
+    .quad node12
+node7:
+    .quad 7
+    .quad node25
+    .quad node905
+node25:
+    .quad 25
+    .quad 0
+    .quad 0
+node905:
+    .quad 905
+    .quad nodem1
+    .quad 0
+nodem1:
+    .quad -1
+    .quad 0
+    .quad 0
+node12:
+    .quad 12
+    .quad node219
+    .quad nodem10
+node219:
+    .quad 219
+    .quad 0
+    .quad 0
+nodem10:
+    .quad -10
+    .quad 0
+    .quad node331
+node331:
+    .quad 331
+    .quad 0
+    .quad 0
+# Stack starts here and grows to lower addresses
+    .pos 0x800
+stack:
+
+

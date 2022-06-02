@@ -1,0 +1,203 @@
+#/* $begin absrev-ys */
+##################################################################
+# absrev.ys - Reverse a src block of len words to dst.
+# Return the sum of absolute values of words contained in src.
+#
+# BURAK BAHAR    e2380137
+# 1. First change was about making an egative number positive. Instead of making positive I substracted from sum. 
+# Also instead of setting constant numbers again and again with different number I keep numbers in different register. Result is around 14.7. (Discarded later)
+# 2. Tried to unroll the loop in to the multiple of 4 with a jump table for remainig numbers (3,2,1 or 0). Result is around 11.6
+# 3. Changed the sum operation for values to get rid of the jumps I make while checking for numbers sign. Result is around 10
+# 4. Changed the unrolling from 4 to 8. Result is around 9.6
+# 5. Implemented leaq and changed jump table. Jump table is going to remainig number, these are defined as 4, 2 and 1 . These drop to below in case of element remains in source.
+# This last one took result to 9.39  
+##################################################################
+# Do not modify this portion
+# Function prologue.
+# %rdi = src, %rsi = dst, %rdx = len
+absrev:
+##################################################################
+# You can modify this portion
+    # Loop header		
+    xorq %rax,%rax    	# sum = 0;
+    
+    andq %rdx,%rdx    	# len <= 0?
+    jle Done            # if so, goto Done:
+    
+    icmpq $1, %rdx
+    jne la
+    mrmovq (%rdi), %r10 # read val from src...
+    rmmovq %r10, (%rsi) # ...and store it to dst
+    xorq %r14, %r14
+    subq %r10, %r14
+    cmovg %r14, %r10
+    addq %r10, %rax
+    jmp Done
+    
+la: 
+    # all this for dst_rev = dst + len - 1
+    xorq %rcx, %rcx     # zero rcx
+    addq %rdx, %rcx     # add len eight times
+    addq %rcx, %rcx
+    addq %rcx, %rcx
+    addq %rcx, %rcx
+   
+    addq %rsi, %rcx     # add dst
+    
+    leaq -8(%rcx), %rcx      # finally, rcx holds dst_rev
+    icmpq $8, %rdx
+    jl s4
+Loop:    
+    leaq  -8(%rdx), %rdx    	# len = len-8
+    mrmovq (%rdi), %r9 # read val from src...
+    mrmovq 8(%rdi), %r10 # read val from src...
+    mrmovq 16(%rdi), %r13 # read val from src...
+    mrmovq 24(%rdi), %rbx # read val from src...
+    
+    rmmovq %r9, (%rcx) # ...and store it to dst
+    xorq %r11, %r11
+    subq %r9, %r11
+    cmovg %r11, %r9
+    addq %r9, %rax
+    
+    rmmovq %r10, -8(%rcx) # ...and store it to dst
+    xorq %r11, %r11
+    subq %r10, %r11
+    cmovg %r11, %r10
+    addq %r10, %rax
+    
+    rmmovq %r13, -16(%rcx) # ...and store it to dst
+    xorq %r11, %r11
+    subq %r13, %r11
+    cmovg %r11, %r13
+    addq %r13, %rax
+    
+    rmmovq %rbx, -24(%rcx) # ...and store it to dst
+    xorq %r11, %r11
+    subq %rbx, %r11
+    cmovg %r11, %rbx
+    addq %rbx, %rax
+
+    
+    mrmovq 32(%rdi), %r9 # read val from src...
+    mrmovq 40(%rdi), %r10 # read val from src...
+    mrmovq 48(%rdi), %r13 # read val from src...
+    mrmovq 56(%rdi), %rbx # read val from src...
+    rmmovq %r9, -32(%rcx) # ...and store it to dst
+    
+    xorq %r11, %r11
+    subq %r9, %r11
+    cmovg %r11, %r9
+    addq %r9, %rax
+    
+    rmmovq %r10, -40(%rcx) # ...and store it to dst
+    xorq %r11, %r11
+    subq %r10, %r11
+    cmovg %r11, %r10
+    addq %r10, %rax
+    
+    rmmovq %r13, -48(%rcx) # ...and store it to dst
+    xorq %r11, %r11
+    subq %r13, %r11
+    cmovg %r11, %r13
+    addq %r13, %rax
+    
+    rmmovq %rbx, -56(%rcx) # ...and store it to dst
+    xorq %r11, %r11
+    subq %rbx, %r11
+    cmovg %r11, %rbx
+    addq %rbx, %rax
+
+    leaq  64(%rdi), %rdi    	# src+8
+    leaq  -64(%rcx), %rcx    	# dst_rev-8
+    icmpq $8 , %rdx # len > 8?
+    jge Loop             # if so, goto Loop:           # if so, goto Loop:
+
+    icmpq $4, %rdx
+    jge s4
+    icmpq $2, %rdx
+    jge s2
+    icmpq $1, %rdx
+    jge s1
+    icmpq $0, %rdx
+    je Done
+s4:
+    icmpq $4, %rdx
+    jl s2
+    mrmovq (%rdi), %r9 # read val from src...
+    mrmovq 8(%rdi), %r10 # read val from src...
+    mrmovq 16(%rdi), %r13 # read val from src...
+    mrmovq 24(%rdi), %rbx # read val from src...
+    
+    rmmovq %r9, (%rcx) # ...and store it to dst
+    xorq %r11, %r11
+    subq %r9, %r11
+    cmovg %r11, %r9
+    addq %r9, %rax
+    
+    rmmovq %r10, -8(%rcx) # ...and store it to dst
+    xorq %r11, %r11
+    subq %r10, %r11
+    cmovg %r11, %r10
+    addq %r10, %rax
+    
+    rmmovq %r13, -16(%rcx) # ...and store it to dst
+    xorq %r11, %r11
+    subq %r13, %r11
+    cmovg %r11, %r13
+    addq %r13, %rax
+    
+    rmmovq %rbx, -24(%rcx) # ...and store it to dst
+    xorq %r11, %r11
+    subq %rbx, %r11
+    cmovg %r11, %rbx
+    addq %rbx, %rax
+    
+    leaq  32(%rdi), %rdi    	# src+4
+    leaq  -32(%rcx), %rcx    	# dst_rev-4
+    leaq  -4(%rdx), %rdx	# len-4
+    icmpq $1, %rdx
+    jle s1
+    
+s2:
+
+    mrmovq (%rdi), %r9 # read val from src...
+    mrmovq 8(%rdi), %r10 # read val from src...
+    
+    rmmovq %r9, (%rcx) # ...and store it to dst
+    xorq %r11, %r11
+    subq %r9, %r11
+    cmovg %r11, %r9
+    addq %r9, %rax
+     
+    rmmovq %r10, -8(%rcx) # ...and store it to dst
+    xorq %r11, %r11
+    subq %r10, %r11
+    cmovg %r11, %r10
+    addq %r10, %rax
+    
+    leaq  16(%rdi), %rdi    	# src+2
+    leaq  -16(%rcx), %rcx    	# dst_rev-2
+    leaq  -2(%rdx), %rdx	# len-2
+    icmpq $0, %rdx
+    je Done
+s1: 
+    icmpq $1, %rdx
+    jl Done
+    mrmovq (%rdi), %r9 # read val from src...
+    
+    rmmovq %r9, (%rcx) # ...and store it to dst 
+    xorq %r11, %r11
+    subq %r9, %r11
+    cmovg %r11, %r9
+    addq %r9, %rax
+    
+##################################################################
+# Do not modify the following section of code
+# Function epilogue.
+Done:
+    ret
+##################################################################
+# Keep the following label at the end of your function
+End:
+#/* $end absrev-ys */
