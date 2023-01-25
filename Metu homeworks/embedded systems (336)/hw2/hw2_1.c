@@ -2,7 +2,7 @@
  * File:   hw2_1.c
  * Author: hobbits_to_isengard
  *
- * Created on 04 May?s 2022 �ar?amba, 17:05
+ * Created on 04 May?s 2022 Çar?amba, 17:05
  */
 
 #pragma config OSC = HSPLL
@@ -511,7 +511,7 @@ void init_all(){
 int main() {
     init_all();
     //
-    while(1){//buralar biryerlere ba?langiç inputunu al
+    while(1){//buralar biryerlere ba?langiÃ§ inputunu al
         check_rc0();
         if(start_flag == 1){
             set_timer_task();
