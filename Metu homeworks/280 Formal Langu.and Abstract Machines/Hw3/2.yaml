@@ -1,0 +1,46 @@
+name: example
+source code: |-
+
+  input: '1010001'
+  blank: ' '
+  start state: 0
+  table:
+
+    0:
+      0      : {write: 0, R: 1}
+      1      : {write: 1, R: 1}
+      ' '    : {write: ' ', L: reject}
+      
+    1:
+      0      : {write: 0, R}
+      1      : {write: 1, R}
+      ' '    : {write: ' ', L: 2}
+    2:
+      0      : {write: a, R: 3}
+      1      : {write: b, R: 4}
+      ' '    : {write: ' ', R: 5}
+      a      : {write: a, L}
+      b      : {write: b, L}
+    3:
+      a      : {write: a, R}
+      b      : {write: b, R}
+      ' '    : {write: a, L: 2}
+    4:
+      a      : {write: a, R}
+      b      : {write: b, R}
+      ' '    : {write: b, L: 2}
+    5:
+      a      : {write: 0, R}
+      b      : {write: 1, R}
+      ' '    : {write: ' ', R : accept}
+    reject:
+    accept:
+positions:
+  '0': {x: 89.65, y: 257.46}
+  '1': {x: 154.27, y: 143.93}
+  '2': {x: 267.44, y: 185.89}
+  '3': {x: 256.32, y: 442.15}
+  '4': {x: 495.43, y: 327.27}
+  '5': {x: 490.04, y: 178.53}
+  reject: {x: 87.55, y: 366.95}
+  accept: {x: 644.14, y: 179.61}

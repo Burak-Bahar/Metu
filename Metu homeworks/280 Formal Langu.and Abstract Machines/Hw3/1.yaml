@@ -1,0 +1,67 @@
+name: example
+source code: |-
+
+  input: '0000'
+  blank: ' '
+  start state: 0
+  table:
+
+    0:
+      0      : {write: 0, R: 0.5}
+      1      : {write: 1, R: reject}
+      ' '    : {write: ' ', R: reject}
+    0.5:
+      1      : {write: 1, R: 1}
+      0      : {write: 0, R}
+      ' '    : {write: ' ', R: reject}
+    1:
+      ' '   : {write: ' ', L: 7}
+      1     : {write: 1, L: 2}
+      0      : {write: 0, R: reject}
+      
+    2:
+      1     : {write: ' ', L: 3}
+    3:
+      0     : {write: 0, L: 4}
+      ' '   : {write: ' ', L}
+    4:
+      0      : {write: 0, R: 5}
+      ' '   : {write: ' ',R: reject}
+    5: 
+      0   : {write: ' ',R: 6}
+    6:
+      ' '   : {write: ' ', R}
+      1     : {write: 1, R: 1}
+    7:
+      1     : {write: ' ', L: 8}
+    8:
+      ' '   : {write: ' ', L}
+      0     : {write: 0, L: 9}
+    9:
+      0     : {write: 0, R: reject}
+      ' '   : {write: ' ', R: 12}
+   
+    12:
+      0     : {write: ' ', L: accept}
+    reject:
+    
+    accept:
+      
+      
+      
+      
+positions:
+  '0': {x: 58.26, y: 153.11}
+  '1': {x: 177.19, y: 330.22}
+  '2': {x: 304.71, y: 334.7}
+  '3': {x: 406.69, y: 338.68}
+  '4': {x: 512.69, y: 445.86}
+  '5': {x: 278.33, y: 442.8}
+  '6': {x: 166.17, y: 441.81}
+  '7': {x: 203.71, y: 96.16}
+  '8': {x: 343.98, y: 97.29}
+  '9': {x: 477.94, y: 100.27}
+  '12': {x: 564.36, y: 150.37}
+  '0.5': {x: 89.71, y: 258.98}
+  reject: {x: 476.7, y: 213.47}
+  accept: {x: 564.56, y: 252.15}
