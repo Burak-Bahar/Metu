@@ -1,0 +1,70 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage[hmargin=3cm,vmargin=6.0cm]{geometry}
+%\topmargin=0cm
+\topmargin=-2cm
+\addtolength{\textheight}{6.5cm}
+\addtolength{\textwidth}{2.0cm}
+%\setlength{\leftmargin}{-5cm}
+\setlength{\oddsidemargin}{0.0cm}
+\setlength{\evensidemargin}{0.0cm}
+
+% symbol commands for the curious
+\newcommand{\setZp}{\mathbb{Z}^+}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\calT}{\mathcal{T}}
+
+\begin{document}
+
+\section*{Student Information } 
+%Write your full name and id number between the colon and newline
+%Put one empty space character after colon and before newline
+Full Name : Burak Bahar\\
+Id Number : 2380137
+
+% Write your answers below the section tags
+\section*{Answer 1}
+\paragraph{a. \\1. Is topology. Because it provides all the conditions.\\ 2. Is not a topology.Because it doesn't provide the second condition. For example it doesn't contain $\{a,b\}$. \\ 3. Is a topology, because all the unions and intersections are present. \\ 4. Is not a topology.All unions don't exist.For example $\{a, b, c\}$.}
+\paragraph{b.\\
+1. If is A then we have empty set.If finite all possible combinations of elements in A and A itself exist.Topology.\\
+2.If is all of A, empty set exists. If countable all possible combinations of elements in A and A itself exist.Topology.\\
+3. If is A then we have empty set. If is empty set then we have all A. If is infinite we can get all subsets.Topology.}
+
+\section*{Answer 2}
+\paragraph{a.\\For being injective (1-to-1), $f(x) = y, f(z) = y$ iff $x = z$. For $\forall a \in A$ and $b = (0, 1)$ , $f(a,b)= (a, a+1)$. There is no different (a,b), that gives the same result so it is injective. }
+
+\paragraph{b.\\For being subjective, $\{ \forall x \in [0, \infty) \}$, $\exists a,b$ that $f(a,b)$ = $ x$. $0 \in [0, \infty)$ but there is no $(a,b)$ pair that $a+b = 0$. So it is not subjective.}
+\paragraph{c.SCHRÖDER-BERNSTEIN THEOREM}
+
+\section*{Answer 3}
+\paragraph{a.\\ Countable because $\{0, 1\}$ is finite and maps $\mathbb{Z}^+$. }
+\paragraph{b.\\ Countable.$\{0, 1, ...., n\}$ is infinitely countable. It maps $\mathbb{Z}^+$, it can be written in sequence. }
+\paragraph{c.It contains uncountable set of functions, for example, f: $\mathbb{Z}^+$ $\rightarrow$ $\{1,0\}$ from.Uncountable.}
+\paragraph{d.\\ Infinite amount of functions can be defined to $\{1,0\}$, it cannot be mapped. We can think of this functions as binary number,since binary  sequence is uncountable. Uncountable.}
+\paragraph{e.Countable. We think like before, writing binary numbers but since functions are eventually 0. The number of binary numbers we can write are restricted and are countable.}
+
+\section*{Answer 4}
+\paragraph{a.\\ From Stirling's approximation $n! = \sqrt{2\pi*n}((n/e)^n)(1+\mathcal{O}(1/n))$.\\ So we can see the $n^n$ and it is the biggest in the  equation. It is both $\mathcal{O}(n^n)$ and $\Omega(n^n)$. }
+\paragraph{b.\\
+$|(n+a)^b| = |n^b + ........ + a^b| $ \\ We can write a $k|a^b|$ that is bigger or smaller than $|(n+a)^b|$. Since the $a^b$ is the biggest base. }
+
+\section*{Answer 5}
+\paragraph{a.\\ $x$ $mod(y)$ means $x = by + a,$ for $b \in \mathbb{Z}$. The given mod means $2^x - 1 = k( 2^y -1) + 2^a -1$,\\$a = x$ $mod(y)$. From $x = by + a$, $2^x = 2^{by} * 2^a$.\\
+$2^x - 1 = k( 2^y -1) + 2^a -1$ \\
+$2^x = k( 2^y -1) + 2^a$ \\
+$2^{by} * 2^a= k( 2^y -1) + 2^a$ \\ 
+$2^a (2^{by}-1) = k( 2^y -1)$\\
+$( 2^y -1) = (2^{by}-1) 2^a/k$ \\
+and when we plug in the $( 2^y -1)$ in $2^x - 1 = k( 2^y -1) + 2^a -1$ we get, \\
+$2^x - 1 = 2^x - 1$}
+\paragraph{b.\\
+$x = d*e$ and $y = c*e$ for $d,e,c \in \mathbb{Z}^+$ and gcd$(d,c) = 1$ from gcd definition. From above solution if $x$ mod$(y)$ = $0$ then this provides us $x = d*e$ and $y = c*e$ and $ b = x = d\div c *y$.\\
+Again from previous solution we have $( 2^y -1) = (2^{by}-1) 2^a/k$ for $a = 0$\\
+If we plug the b we got, to this place $k( 2^y -1) = (2^{d/cy}-1)$ and $k( 2^y -1) = (2^x-1)$}
+
+
+\end{document}
